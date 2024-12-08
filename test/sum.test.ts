@@ -28,4 +28,12 @@ describe("sum", () => {
   it("should return sum with dynamic delimiters ':'", () => {
     expect(sum("//:\n1:3:4:5")).toBe(13);
   });
+
+  it("should thow error for negative numbers", () => {
+    expect(() => sum("//,\n1,3,-4,5")).toThrow("negatives not allowed - -4");
+  });
+
+  it("should not thow error for positive numbers", () => {
+    expect(() => sum("//,\n1,3,4,5")).not.toThrow("negatives not allowed - -4");
+  });
 });

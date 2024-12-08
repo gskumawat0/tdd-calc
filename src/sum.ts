@@ -10,6 +10,11 @@ export const sum = (s: string): number => {
 
   const re = new RegExp(`\\n|${delimiter}`, "g");
   const nums = s.split(re);
+  const negativeNums = nums.filter((n) => Number(n) < 0);
+
+  if (negativeNums.length > 0) {
+    throw new Error(`negatives not allowed - ${negativeNums.join(", ")}`);
+  }
 
   nums.forEach((n) => {
     total += Number(n);
