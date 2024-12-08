@@ -16,4 +16,16 @@ describe("sum", () => {
   it("should return sum for multiple numbers", () => {
     expect(sum("1,3,4,5")).toBe(13);
   });
+
+  it("should return sum with multiple delimiters", () => {
+    expect(sum("1,3\n4,5")).toBe(13);
+  });
+
+  it("should return sum with dynamic delimiters ';'", () => {
+    expect(sum("//;\n1;3;4;5")).toBe(13);
+  });
+
+  it("should return sum with dynamic delimiters ':'", () => {
+    expect(sum("//:\n1:3:4:5")).toBe(13);
+  });
 });
