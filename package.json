@@ -4,7 +4,8 @@
   "description": "calculator based on tdd approach",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev": "ts-node ./index.ts"
   },
   "author": "",
   "license": "ISC",

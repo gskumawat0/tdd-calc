@@ -22,30 +22,40 @@ describe("sum", () => {
   });
 
   it("should return sum with dynamic delimiters ';'", () => {
-    expect(sum("//;\n1;3;4;5")).toBe(13);
+    expect(sum("//[;]\n1;3;4;5")).toBe(13);
   });
 
   it("should return sum with dynamic delimiters ':'", () => {
-    expect(sum("//:\n1:3:4:5")).toBe(13);
+    expect(sum("//[:]\n1:3:4:5")).toBe(13);
   });
 
   it("should thow error for negative numbers", () => {
-    expect(() => sum("//,\n1,3,-4,5")).toThrow("negatives not allowed - -4");
+    expect(() => sum("//[,]\n1,3,-4,5")).toThrow("negatives not allowed - -4");
   });
 
   it("should not thow error for positive numbers", () => {
-    expect(() => sum("//,\n1,3,4,5")).not.toThrow("negatives not allowed - -4");
+    expect(() => sum("//[,]\n1,3,4,5")).not.toThrow(
+      "negatives not allowed - -4"
+    );
   });
 
   it("should ignore nums greater than 1000", () => {
-    expect(sum("//,\n1,3,4,5,1001")).toBe(13);
+    expect(sum("//[,]\n1,3,4,5,1001")).toBe(13);
   });
 
   it("should include 1000 in sum", () => {
-    expect(sum("//,\n1,3,4,5,1000")).toBe(1013);
+    expect(sum("//[,]\n1,3,4,5,1000")).toBe(1013);
   });
 
-  it("should return sum with dynamic delimiters with length > 1 ';;;'", () => {
+  it("should return sum with dynamic delimiters having length > 1 ';;;'", () => {
     expect(sum("//[;;;]\n1;;;3;;;4;;;5;;;1000")).toBe(1013);
+  });
+
+  it("should return sum with multiple dynamic delimiters  ';, ?'", () => {
+    expect(sum("//[;][?]\n1;3?4;5?1000")).toBe(1013);
+  });
+
+  it("should return sum with multiple dynamic delimiters having length > 1  ';;;;,??,?*?!'", () => {
+    expect(sum("//[;;;;][??][?*?!]\n1;;;;3??4;;;;5?*?!1000")).toBe(1013);
   });
 });

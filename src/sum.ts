@@ -1,21 +1,32 @@
+// https://osherove.com/tdd-kata-1/
+
 export const sum = (s: string): number => {
   let total = 0;
-  let delimiter = ",";
 
-  // check if first line starts with //*
+  const nums: string[] = [];
+
+  let startIndex = 0;
   if (s.startsWith("//")) {
-    if (s[2] === "[") {
-      const endIndex = s.indexOf("]");
-      delimiter = s.slice(3, endIndex);
-      s = s.slice(endIndex + 1);
-    } else {
-      delimiter = s[2];
-      s = s.slice(3);
-    }
+    startIndex = s.indexOf("\n") + 1;
   }
 
-  const re = new RegExp(`\\n|${delimiter}`, "g");
-  const nums = s.split(re);
+  let n = "";
+
+  while (startIndex < s.length) {
+    // note: assuming delimiter doesn't have any numbers
+
+    if (s[startIndex].match(/\d/) || (s[startIndex] === "-" && n === "")) {
+      n += s[startIndex];
+    } else {
+      nums.push(n);
+      n = "";
+    }
+
+    startIndex += 1;
+  }
+
+  if (n) nums.push(n);
+
   const negativeNums = nums.filter((n) => Number(n) < 0);
 
   if (negativeNums.length > 0) {
@@ -27,4 +38,19 @@ export const sum = (s: string): number => {
   });
 
   return total;
+};
+
+export const getDelimiter = (s: string): Set<string> => {
+  const delimiters = new Set([",", "\n"]);
+
+  if (s.startsWith("//")) {
+    let i = 2;
+
+    while (s[i] === "[") {
+      const endIndex = s.indexOf("]", i + 1);
+      delimiters.add(s.slice(i + 1, endIndex));
+      i = endIndex + 1;
+    }
+  }
+  return delimiters;
 };
